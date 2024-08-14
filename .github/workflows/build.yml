@@ -9,6 +9,7 @@ env:
   IMAGE_NAME: zakiego/ipuk
   IMAGE_TAG: dev
   COOLIFY_WEBHOOK_URL: ${{ secrets.COOLIFY_WEBHOOK_URL }}
+  COOLIFY_TOKEN: ${{ secrets.COOLIFY_TOKEN }}
 
 jobs:
   docker:
@@ -35,4 +36,4 @@ jobs:
     steps:
       - name: Trigger Webhook
         run: |
-          curl ${{ env.COOLIFY_WEBHOOK_URL }}
+          curl --request GET '${{ secrets.COOLIFY_WEBHOOK_URL }}' --header 'Authorization: Bearer ${{ env.COOLIFY_TOKEN }}'
