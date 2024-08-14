@@ -8,6 +8,7 @@ env:
   DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
   IMAGE_NAME: zakiego/ipuk
   IMAGE_TAG: dev
+  COOLIFY_WEBHOOK_URL: ${{ secrets.COOLIFY_WEBHOOK_URL }}
 
 jobs:
   docker:
@@ -27,3 +28,11 @@ jobs:
         with:
           push: true
           tags: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+
+  coolify:
+    runs-on: ubuntu-latest
+    needs: docker
+    steps:
+      - name: Trigger Webhook
+        run: |
+          curl ${{ env.COOLIFY_WEBHOOK_URL }}
